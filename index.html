@@ -4,6 +4,42 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>swwind</title>
   <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: #ececec;
+      color: #37475b;
+    }
+
+    body {
+      display: grid;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .main {
+      width: calc(100% - 32px);
+      background-color: #ffffff;
+      padding: 20px;
+      border-radius: 20px;
+      box-shadow: #0003 0 0 10px;
+    }
+
+    .avatar {
+      width: 100px;
+      height: 100px;
+      margin: 30px auto 50px;
+    }
+    
+    .avatar img {
+      width: 100%;
+      height: 100%;
+      border-radius: 50%;
+    }
+
     @media (prefers-color-scheme: dark) {
       body {
         background-color: #181c27;
@@ -12,20 +48,31 @@
       body a {
         color: #3499ff;
       }
+      .main {
+        background-color: #252d38;
+      }
     }
+
+    body, .main {
+      transition: background-color .5s;
+    }
+
   </style>
 </head>
 <body>
   <div class="main">
-    <div class="name">Hey, I'm swwind</div>
-    <div class="info">More about me:</div>
+    <div class="avatar">
+      <img src="avatar.png" alt="My Avatar">
+    </div>
+    <p class="name">Hey, I'm swwind</p>
+    <p class="info">More about me:</p>
     <ul>
       <li><a href="https://blog.swwind.me/">blog</a></li>
       <li><a href="https://space.bilibili.com/39681627">bilibili</a></li>
       <li><a href="https://steamcommunity.com/id/swwind233/">steam</a></li>
       <li><a href="https://t.me/swwind">telegram</a></li>
     </ul>
-    <div class="suggestion">Personal recommendations:</div>
+    <p class="suggestion">Some personal recommendations:</p>
     <ul>
       <li><a href="https://live.bilibili.com/456668">A music radio (bilibili live)</a></li>
       <li><a href="https://zh.moegirl.org/zh-hans/想哭的我戴上了猫的面具">映画「泣きたい私は猫をかぶる」</a></li>
