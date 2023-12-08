@@ -122,13 +122,18 @@
         video.classList.add('fadeout');
       }, 2000)
       setTimeout(() => {
-        video.classList.remove('fadeout');
-        video.classList.add('fadein');
+        video.pause();
         video.src = 'title-vp9.mp4';
+        video.load()
+        video.oncanplay = () => {
+          video.classList.remove('fadeout');
+          video.classList.add('fadein');
+          video.play();
+          setTimeout(() => {
+            audio.play()
+          }, 1000)
+        }
       }, 2500)
-      setTimeout(() => {
-        audio.play()
-      }, 3000)
       appwindow.removeChild(logo)
       appwindow.appendChild(video)
     }
