@@ -1,142 +1,148 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Android 模拟器</title>
-  <link rel="preload" href="title-vp9.mp4" as="video">
-  <link rel="preload" href="Theme_01.ogg" as="audio">
-  <link rel="preload" href="logo-vp9.mp4" as="video">
-  <link rel="preload" href="icon_1.png" as="image">
-  <style>
-    html, body {
-      padding: 0;
-      margin: 0;
-      height: 100%;
-      width: 100%;
-      overflow: hidden;
-      font-family: sans-serif;
-      background-color: gray;
-    }
-    video {
-      height: 100%;
-      width: 100%;
-      object-fit: cover;
-      opacity: 0;
-    }
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Android 模拟器</title>
+    <link rel="preload" href="title-vp9.mp4" as="video" />
+    <link rel="preload" href="Theme_01.ogg" as="audio" />
+    <link rel="preload" href="logo-vp9.mp4" as="video" />
+    <link rel="preload" href="icon_1.png" as="image" />
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        font-family: sans-serif;
+        background-color: gray;
+      }
+      video {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+        opacity: 0;
+      }
 
-    .app {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      width: 100px;
-      margin: 20px;
-      cursor: pointer;
-    }
+      .app {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100px;
+        margin: 20px;
+        cursor: pointer;
+      }
 
-    .app.open {
-      cursor: default;
-    }
+      .app.open {
+        cursor: default;
+      }
 
-    .application-window {
-      width: 60px;
-      height: 60px;
-      border-radius: 30px;
-      background-color: black;
-      overflow: hidden;
-    }
+      .application-window {
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+        background-color: black;
+        overflow: hidden;
+      }
 
-    .app.open .placeholder {
-      width: 60px;
-      height: 60px;
-    }
+      .app.open .placeholder {
+        width: 60px;
+        height: 60px;
+      }
 
-    .app.open .application-window {
-      position: fixed;
-      left: 0;
-      top: 0;
-      width: 100vw;
-      height: 100vh;
-      border-radius: 0;
-      transition: all .5s cubic-bezier(.08,.82,.17,1);
-    }
+      .app.open .application-window {
+        position: fixed;
+        left: 0;
+        top: 0;
+        width: 100vw;
+        height: 100vh;
+        border-radius: 0;
+        transition: all 0.5s cubic-bezier(0.08, 0.82, 0.17, 1);
+      }
 
-    .app.open img {
-      opacity: 0;
-    }
+      .app.open img {
+        opacity: 0;
+      }
 
-    .application-desc {
-      color: white;
-      margin-top: 8px;
-    }
+      .application-desc {
+        color: white;
+        margin-top: 8px;
+      }
 
-    #logo, #content {
-      width: 100%;
-      height: 100%;
-    }
+      #logo,
+      #content {
+        width: 100%;
+        height: 100%;
+      }
 
-    video.fadein {
-      opacity: 1;
-      transition: opacity .5s;
-    }
-    video.fadeout {
-      opacity: 0;
-      transition: opacity .5s;
-    }
-  </style>
-</head>
-<body>
-  <div class="app" id="app">
-    <div class="application-window" id="appwindow">
-        <img src="icon_1.png" style="width: 100%;height: 100%;object-fit: contain;" id="logo" />
+      video.fadein {
+        opacity: 1;
+        transition: opacity 0.5s;
+      }
+      video.fadeout {
+        opacity: 0;
+        transition: opacity 0.5s;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="app" id="app">
+      <div class="application-window" id="appwindow">
+        <img
+          src="icon_1.png"
+          style="width: 100%; height: 100%; object-fit: contain"
+          id="logo"
+        />
         <!-- <video src="logo-vp9.mp4" autoplay muted id="video"></video> -->
+      </div>
+      <div class="placeholder"></div>
+      <div class="application-desc">ブルアカ</div>
     </div>
-    <div class="placeholder"></div>
-    <div class="application-desc">ブルアカ</div>
-  </div>
-  <audio src="Theme_01.ogg" loop id="audio"></audio>
+    <audio src="Theme_01.ogg" loop id="audio"></audio>
 
-  <script>
-    app.onclick = () => {
-      // <title>ブルアカ</title>
-      document.title = 'ブルアカ';
-      // <link rel="shortcut icon" href="icon_1.png" type="image/png">
-      const link = document.createElement('link')
-      link.rel = 'shortcut icon';
-      link.href = 'icon_1.png';
-      link.type = 'image/png';
-      document.head.appendChild(link)
+    <script>
+      app.onclick = () => {
+        // <title>ブルアカ</title>
+        document.title = "ブルアカ";
+        // <link rel="shortcut icon" href="icon_1.png" type="image/png">
+        const link = document.createElement("link");
+        link.rel = "shortcut icon";
+        link.href = "icon_1.png";
+        link.type = "image/png";
+        document.head.appendChild(link);
 
-      app.classList.add('open')
+        app.classList.add("open");
 
-      const video = document.createElement('video');
-      video.autoplay = true;
-      video.muted = true;
-      video.loop = true;
-      video.src = 'logo-vp9.mp4'
-      setTimeout(() => {
-        video.classList.add('fadein');
-      }, 500)
-      setTimeout(() => {
-        video.classList.remove('fadein');
-        video.classList.add('fadeout');
-      }, 2000)
-      setTimeout(() => {
-        video.pause();
-        video.src = 'title-vp9.mp4';
-        video.load()
-        video.oncanplay = () => {
-          video.classList.remove('fadeout');
-          video.classList.add('fadein');
-          video.play();
-          setTimeout(() => {
-            audio.play()
-          }, 1000)
-        }
-      }, 2500)
-      appwindow.removeChild(logo)
-      appwindow.appendChild(video)
-    }
-  </script>
-</body>
+        const video = document.createElement("video");
+        video.autoplay = true;
+        video.muted = true;
+        video.loop = true;
+        video.src = "logo-vp9.mp4";
+        setTimeout(() => {
+          video.classList.add("fadein");
+        }, 500);
+        setTimeout(() => {
+          video.classList.remove("fadein");
+          video.classList.add("fadeout");
+        }, 2000);
+        setTimeout(() => {
+          video.pause();
+          video.src = "title-vp9.mp4";
+          video.load();
+          video.oncanplay = () => {
+            video.classList.remove("fadeout");
+            video.classList.add("fadein");
+            video.play();
+            setTimeout(() => {
+              audio.play();
+            }, 1000);
+          };
+        }, 2500);
+        appwindow.removeChild(logo);
+        appwindow.appendChild(video);
+      };
+    </script>
+  </body>
 </html>
