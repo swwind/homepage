@@ -1,87 +1,162 @@
+<!DOCTYPE html>
 <html lang="en">
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>swwind</title>
-  <style>
-    html, body {
-      margin: 0;
-      padding: 0;
-    }
-
-    body {
-      background-color: #ececec;
-      color: #37475b;
-    }
-
-    body {
-      display: grid;
-      justify-content: center;
-      align-items: center;
-      height: 100vh;
-      width: 100vw;
-    }
-
-    .main {
-      width: calc(100% - 32px);
-      background-color: #ffffff;
-      padding: 20px;
-      border-radius: 20px;
-      box-shadow: #0003 0 0 10px;
-    }
-
-    .avatar {
-      width: 100px;
-      height: 100px;
-      margin: 30px auto 50px;
-    }
-    
-    .avatar img {
-      width: 100%;
-      height: 100%;
-      border-radius: 50%;
-    }
-
-    @media (prefers-color-scheme: dark) {
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Android 模拟器</title>
+    <link rel="preload" href="ba/icon_1.png" as="image" />
+    <style>
+      html,
       body {
-        background-color: #181c27;
-        color: #ffffff;
+        padding: 0;
+        margin: 0;
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        font-family: sans-serif;
+        background-color: #282828;
       }
-      body a {
-        color: #3499ff;
-      }
-      .main {
-        background-color: #252d38;
-      }
-    }
 
-    body, .main {
-      transition: background-color .5s;
-    }
+      .application {
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        width: 100px;
+        margin: 20px;
+        cursor: pointer;
+        position: relative;
+      }
 
-  </style>
-</head>
-<body>
-  <div class="main">
-    <div class="avatar">
-      <img src="avatar.png" alt="My Avatar">
-    </div>
-    <p class="name">Hey, I'm swwind</p>
-    <p class="info">Get in touch:</p>
-    <ul>
-      <li><a href="https://blog.swwind.me/">Blog</a></li>
-      <li><a href="https://space.bilibili.com/39681627">Bilibili</a></li>
-      <li><a href="https://steamcommunity.com/id/swwind233/">Steam</a></li>
-      <li><a href="https://t.me/swwind">Telegram</a></li>
-      <li><a href="mailto:i@sww.moe">E-Mail</a></li>
-    </ul>
-    <p class="suggestion">Some personal recommendations:</p>
-    <ul>
-      <li><a href="https://live.bilibili.com/456668">A music radio (bilibili live)</a></li>
-      <li><a href="https://zh.moegirl.org/zh-hans/想哭的我戴上了猫的面具">映画「泣きたい私は猫をかぶる」</a></li>
-      <li><a href="https://zh.moegirl.org/zh-hans/知道天空有多蓝的人啊">映画「空の青さを知る人よ」</a></li>
-      <li><a href="https://zh.moegirl.org/zh-hans/CLANNAD">CLANNAD 一生推</a></li>
-    </ul>
-  </div>
-</body>
+      .application.open {
+        cursor: default;
+      }
+
+      .application .window {
+        position: absolute;
+        top: 0;
+        width: 60px;
+        height: 60px;
+        border-radius: 30px;
+        background-color: black;
+        overflow: hidden;
+      }
+
+      .application .window .icon {
+        height: 100%;
+        width: 100%;
+        object-fit: cover;
+      }
+
+      .desc {
+        color: white;
+        margin-top: 8px;
+      }
+
+      .placeholder {
+        width: 60px;
+        height: 60px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app"></div>
+
+    <script>
+      const elem = document.getElementById("app");
+      const apps = [
+        {
+          name: "ブロク",
+          icon: "/avatar.png",
+          target: "https://blog.sww.moe/",
+          theme: "#1E293B",
+        },
+        {
+          name: "ブルアカ",
+          icon: "/ba/icon_1.png",
+          target: "/ba/",
+          theme: "#000000",
+        },
+      ];
+
+      const setFav = (href) => {
+        const link = document.createElement("link");
+        link.rel = "shortcut icon";
+        link.href = href;
+        link.type = "image/png";
+        document.head.appendChild(link);
+      };
+      const setTitle = (title) => {
+        document.title = title;
+      };
+
+      apps.forEach((app) => {
+        const div = document.createElement("div");
+        div.classList.add("application");
+        div.addEventListener("click", function onclick() {
+          div.removeEventListener("click", onclick);
+
+          setFav(app.icon);
+          setTitle(app.name);
+
+          const icon = div.querySelector(".icon");
+          const win = div.querySelector(".window");
+
+          div.style.zIndex = 100;
+          icon.style.opacity = 0;
+          win.style.backgroundColor = app.theme;
+          win.animate(
+            {
+              left: "0px",
+              top: "0px",
+              borderRadius: "0px",
+              width: "100vw",
+              height: "100vh",
+            },
+            {
+              fill: "forwards",
+              duration: 500,
+              easing: "cubic-bezier(0.08, 0.82, 0.17, 1)",
+            }
+          );
+
+          setTimeout(() => {
+            if (app.target.startsWith("/")) {
+              while (win.firstChild) {
+                win.removeChild(win.lastChild);
+              }
+              const iframe = document.createElement("iframe");
+              iframe.src = app.target;
+              iframe.frameBorder = "0";
+              iframe.style.width = "100%";
+              iframe.style.height = "100%";
+              win.appendChild(iframe);
+            } else {
+              location.href = app.target;
+            }
+          }, 750);
+        });
+
+        div.innerHTML = `
+          <div class="window">
+            <img class="icon" src="${app.icon}" />
+          </div>
+          <div class="placeholder"></div>
+          <div class="desc">
+            ${app.name}
+          </div>
+        `;
+
+        elem.appendChild(div);
+
+        setTimeout(() => {
+          const window = div.querySelector(".window");
+          const placeholder = div.querySelector(".placeholder");
+          const rect = placeholder.getBoundingClientRect();
+          window.style.position = "fixed";
+          window.style.left = `${rect.left}px`;
+          window.style.top = `${rect.top}px`;
+        });
+      });
+    </script>
+  </body>
 </html>

@@ -1,13 +1,13 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="ja">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Android 模拟器</title>
+    <title>ブルアカ</title>
+    <link rel="shortcut icon" href="icon_1.png" type="image/png" />
     <link rel="preload" href="title-vp9.mp4" as="video" />
-    <link rel="preload" href="Theme_01.ogg" as="audio" />
     <link rel="preload" href="logo-vp9.mp4" as="video" />
-    <link rel="preload" href="icon_1.png" as="image" />
+    <link rel="preload" href="Theme_01.ogg" as="audio" />
     <style>
       html,
       body {
@@ -17,132 +17,213 @@
         width: 100%;
         overflow: hidden;
         font-family: sans-serif;
-        background-color: gray;
+        background-color: black;
+        color: #304a68;
       }
+
       video {
         height: 100%;
         width: 100%;
         object-fit: cover;
-        opacity: 0;
-      }
-
-      .app {
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        width: 100px;
-        margin: 20px;
-        cursor: pointer;
-      }
-
-      .app.open {
-        cursor: default;
-      }
-
-      .application-window {
-        width: 60px;
-        height: 60px;
-        border-radius: 30px;
-        background-color: black;
-        overflow: hidden;
-      }
-
-      .app.open .placeholder {
-        width: 60px;
-        height: 60px;
-      }
-
-      .app.open .application-window {
-        position: fixed;
-        left: 0;
-        top: 0;
-        width: 100vw;
-        height: 100vh;
-        border-radius: 0;
-        transition: all 0.5s cubic-bezier(0.08, 0.82, 0.17, 1);
-      }
-
-      .app.open img {
-        opacity: 0;
-      }
-
-      .application-desc {
-        color: white;
-        margin-top: 8px;
       }
 
       #logo,
-      #content {
-        width: 100%;
+      #main {
+        position: fixed;
         height: 100%;
+        width: 100%;
+        left: 0;
+        top: 0;
+        user-select: none;
       }
 
-      video.fadein {
-        opacity: 1;
-        transition: opacity 0.5s;
+      #main .logo {
+        left: 20px;
+        top: 20px;
+        position: fixed;
+        width: 350px;
       }
-      video.fadeout {
-        opacity: 0;
-        transition: opacity 0.5s;
+
+      #main .control {
+        position: fixed;
+        left: 25px;
+        bottom: 25px;
+      }
+      #main .control .menu {
+        background-color: white;
+        border-radius: 5px;
+        padding: 8px 10px;
+        color: #304a68;
+        font-size: 16px;
+        transform: skewX(-10deg);
+        display: inline-block;
+        font-weight: 500;
+      }
+      #main .control .kirikae {
+        background-color: #304a68;
+        border-radius: 5px;
+        padding: 8px 10px;
+        color: white;
+        font-size: 16px;
+        transform: skewX(-10deg);
+        margin-top: 10px;
+        font-weight: 500;
+      }
+
+      #main .info {
+        position: fixed;
+        top: 20px;
+        right: 30px;
+        text-align: right;
+        color: black;
+        font-weight: bold;
+        -webkit-text-stroke: 1px white;
+      }
+
+      #main .panel {
+        position: fixed;
+        bottom: 20px;
+        left: 0;
+        right: 0;
+        width: 800px;
+        margin: 0 auto;
+        text-align: center;
+      }
+
+      .start {
+        width: 100%;
+        padding: 0;
+        font-size: 24px;
+        font-weight: 500;
+        background: linear-gradient(
+          to right,
+          transparent,
+          #fff8 10%,
+          #fff8 90%,
+          transparent
+        );
+        color: #304a68;
+        animation: color-blink 3s infinite linear;
+      }
+
+      .code {
+        background-color: #304a68;
+        border-radius: 5px;
+        padding: 2px 20px;
+        color: white;
+        font-size: 16px;
+        transform: skewX(-10deg);
+        margin: 10px 0;
+        font-weight: 500;
+        display: inline-block;
+      }
+
+      @keyframes color-blink {
+        from {
+          color: #304a68ff;
+        }
+        50% {
+          color: #304a6840;
+        }
+        to {
+          color: #304a68ff;
+        }
+      }
+
+      .copyright {
+        color: black;
+        font-weight: bold;
+        -webkit-text-stroke: 1px white;
       }
     </style>
   </head>
   <body>
-    <div class="app" id="app">
-      <div class="application-window" id="appwindow">
-        <img
-          src="icon_1.png"
-          style="width: 100%; height: 100%; object-fit: contain"
-          id="logo"
-        />
-        <!-- <video src="logo-vp9.mp4" autoplay muted id="video"></video> -->
+    <div id="logo" style="opacity: 0">
+      <video src="logo-vp9.mp4" loop muted id="video1"></video>
+    </div>
+    <div id="main" style="opacity: 0">
+      <video src="title-vp9.mp4" loop muted id="video2"></video>
+
+      <img src="logo-dark.png" class="logo" />
+
+      <div class="control">
+        <div class="menu">MENU</div>
+        <div class="kirikae">ログインアカウントの切り替え</div>
       </div>
-      <div class="placeholder"></div>
-      <div class="application-desc">ブルアカ</div>
+
+      <div class="info">
+        <div class="uid">UID : 1919 810</div>
+        <div class="ver">Ver : 114514</div>
+      </div>
+
+      <div class="panel">
+        <div class="start">TOUCH TO START</div>
+        <div class="code">引継ぎコード</div>
+        <div class="copyright">
+          © NEXON Games Co., Ltd. & Yostar, Inc. All Rights Reserved.
+        </div>
+      </div>
     </div>
     <audio src="Theme_01.ogg" loop id="audio"></audio>
 
     <script>
-      app.onclick = () => {
-        // <title>ブルアカ</title>
-        document.title = "ブルアカ";
-        // <link rel="shortcut icon" href="icon_1.png" type="image/png">
-        const link = document.createElement("link");
-        link.rel = "shortcut icon";
-        link.href = "icon_1.png";
-        link.type = "image/png";
-        document.head.appendChild(link);
+      const video1 = document.getElementById("video1");
+      const video2 = document.getElementById("video2");
+      const audio = document.getElementById("audio");
+      const logo = document.getElementById("logo");
+      const main = document.getElementById("main");
 
-        app.classList.add("open");
-
-        const video = document.createElement("video");
-        video.autoplay = true;
-        video.muted = true;
-        video.loop = true;
-        video.src = "logo-vp9.mp4";
-        setTimeout(() => {
-          video.classList.add("fadein");
-        }, 500);
-        setTimeout(() => {
-          video.classList.remove("fadein");
-          video.classList.add("fadeout");
-        }, 2000);
-        setTimeout(() => {
-          video.pause();
-          video.src = "title-vp9.mp4";
-          video.load();
+      const videoCanPlay = (video) => {
+        return new Promise((resolve) => {
+          let solved = false;
           video.oncanplay = () => {
-            video.classList.remove("fadeout");
-            video.classList.add("fadein");
-            video.play();
-            setTimeout(() => {
-              audio.play();
-            }, 1000);
+            if (!solved) {
+              solved = true;
+              resolve();
+            }
           };
-        }, 2500);
-        appwindow.removeChild(logo);
-        appwindow.appendChild(video);
+        });
       };
+
+      const delay = (time) =>
+        new Promise((resolve) => setTimeout(resolve, time));
+
+      const video1CanPlay = videoCanPlay(video1);
+      const video2CanPlay = videoCanPlay(video2);
+
+      const logoFinished = video1CanPlay
+        // fade in
+        .then(() => {
+          video1.play();
+          return logo.animate([{ opacity: 1 }], {
+            duration: 500,
+            fill: "forwards",
+          }).finished;
+        })
+        // show 1000ms
+        .then(() => delay(1000))
+        // fadeout
+        .then(() => {
+          return logo.animate([{ opacity: 0 }], {
+            duration: 500,
+            fill: "forwards",
+          }).finished;
+        })
+        // final wait .5s
+        .then(() => {
+          return delay(500);
+        });
+
+      Promise.all([logoFinished, video2CanPlay])
+        .then(() => {
+          video2.play();
+          return main.animate([{ opacity: 1 }], {
+            duration: 500,
+            fill: "forwards",
+          }).finished;
+        })
+        .then(() => delay(500))
+        .then(() => audio.play());
     </script>
   </body>
 </html>
