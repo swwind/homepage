@@ -223,7 +223,14 @@
           }).finished;
         })
         .then(() => delay(500))
-        .then(() => audio.play());
+        .then(() => {
+          try {
+            audio.play();
+          } catch (e) {}
+          window.addEventListener("click", () => {
+            audio.play();
+          });
+        });
     </script>
   </body>
 </html>

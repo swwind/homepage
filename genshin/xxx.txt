@@ -1,0 +1,2 @@
+curl "https://www.gstatic.com/draco/versioned/decoders/1.5.5/draco_wasm_wrapper.js" --create-dirs -o "./draco/versioned/decoders/1.5.5/draco_wasm_wrapper.js"
+curl "https://www.gstatic.com/draco/versioned/decoders/1.5.5/draco_decoder.wasm" --create-dirs -o "./draco/versioned/decoders/1.5.5/draco_decoder.wasm"

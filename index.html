@@ -76,27 +76,19 @@
           target: "/ba/",
           theme: "#000000",
         },
+        {
+          name: "原神",
+          icon: "/genshin/icon.webp",
+          target: "/genshin/",
+          theme: "#ffffff",
+        },
       ];
-
-      const setFav = (href) => {
-        const link = document.createElement("link");
-        link.rel = "shortcut icon";
-        link.href = href;
-        link.type = "image/png";
-        document.head.appendChild(link);
-      };
-      const setTitle = (title) => {
-        document.title = title;
-      };
 
       apps.forEach((app) => {
         const div = document.createElement("div");
         div.classList.add("application");
         div.addEventListener("click", function onclick() {
           div.removeEventListener("click", onclick);
-
-          setFav(app.icon);
-          setTitle(app.name);
 
           const icon = div.querySelector(".icon");
           const win = div.querySelector(".window");
@@ -120,20 +112,8 @@
           );
 
           setTimeout(() => {
-            if (app.target.startsWith("/")) {
-              while (win.firstChild) {
-                win.removeChild(win.lastChild);
-              }
-              const iframe = document.createElement("iframe");
-              iframe.src = app.target;
-              iframe.frameBorder = "0";
-              iframe.style.width = "100%";
-              iframe.style.height = "100%";
-              win.appendChild(iframe);
-            } else {
-              location.href = app.target;
-            }
-          }, 750);
+            location.href = app.target;
+          }, 500);
         });
 
         div.innerHTML = `
