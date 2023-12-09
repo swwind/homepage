@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+        overflow: hidden;
+        background-color: black;
+        color: white;
+      }
+
+      #canvas {
+        position: fixed;
+        left: 0;
+        top: 0;
+        z-index: 100;
+        pointer-events: none;
+      }
+    </style>
+  </head>
+  <body>
+    hello world
+    <canvas id="canvas"></canvas>
+    <script>
+      const MOUSE_TIME = 200;
+
+      /** @type {HTMLCanvasElement} */
+      const canvas = document.getElementById("canvas");
+      const ctx = canvas.getContext("2d");
+
+      if (!ctx) {
+        throw new Error("canvas is disabled");
+      }
+
+      function onresize() {
+        canvas.height = window.innerHeight;
+        canvas.width = window.innerWidth;
+      }
+      addEventListener("resize", onresize);
+      onresize();
+
+      /** @type {{x: number, y: number}[]} */
+      const circles = [];
+      /** @type {{t: number, x1: number, y1: number, x2: number, y2: number}[]} */
+      const moves = [];
+      /** @type {{t: number, }[]} */
+      const triangles = [];
+
+      /**
+       * @param {number} x
+       * @param {number} y
+       */
+      function addCircle(x, y) {
+        circles.push({ x, y });
+        setTimeout(() => circles.shift(), 1000);
+      }
+
+      /**
+       * @param {number} x1
+       * @param {number} y1
+       * @param {number} x2
+       * @param {number} y2
+       */
+      function addMovement(x1, y1, x2, y2) {
+        moves.push({ x1, y1, x2, y2, t: Date.now() });
+        setTimeout(() => moves.shift(), MOUSE_TIME);
+      }
+
+      let mousedown = false;
+      let lastX = 0;
+      let lastY = 0;
+
+      addEventListener("mousedown", (e) => {
+        addCircle(e.x, e.y);
+        mousedown = true;
+        lastX = e.x;
+        lastY = e.y;
+      });
+
+      addEventListener("mouseup", () => {
+        mousedown = false;
+      });
+
+      addEventListener("mousemove", (e) => {
+        if (mousedown) {
+          addMovement(lastX, lastY, e.x, e.y);
+          lastX = e.x;
+          lastY = e.y;
+        }
+      });
+
+      let touchX = 0;
+      let touchY = 0;
+
+      addEventListener("touchstart", (e) => {
+        addCircle(e.touches[0].clientX, e.touches[0].clientY);
+        touchX = e.touches[0].clientX;
+        touchY = e.touches[0].clientY;
+      });
+
+      addEventListener("touchmove", (e) => {
+        addMovement(touchX, touchY, e.touches[0].clientX, e.touches[0].clientY);
+        touchX = e.touches[0].clientX;
+        touchY = e.touches[0].clientY;
+      });
+
+      requestAnimationFrame(function render() {
+        ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+        ctx.shadowBlur = 0;
+        ctx.lineWidth = 1;
+        ctx.strokeStyle = "white";
+        for (const c of circles) {
+          ctx.beginPath();
+          ctx.arc(c.x, c.y, 20, 0, Math.PI * 2);
+          ctx.stroke();
+        }
+
+        const now = Date.now();
+
+        ctx.shadowBlur = 5;
+        ctx.shadowColor = "#464EA1";
+        ctx.strokeStyle = "#fff";
+        for (const m of moves) {
+          const delta = 1 - (now - m.t) / MOUSE_TIME;
+          const size = delta;
+
+          for (let i = 0; i < 10; ++i) {
+            ctx.beginPath();
+            ctx.moveTo(m.x1, m.y1);
+            ctx.lineTo(m.x2, m.y2);
+            ctx.lineWidth = ((10 - i) * size) / 2;
+            ctx.stroke();
+          }
+        }
+
+        ctx.shadowBlur = 0;
+        ctx.strokeStyle = "#fff";
+        for (const m of moves) {
+          const delta = Math.max(1 - (now - m.t) / MOUSE_TIME, 0);
+          const size = delta;
+
+          for (let i = 0; i < 10; ++i) {
+            ctx.beginPath();
+            ctx.moveTo(m.x1, m.y1);
+            ctx.lineTo(m.x2, m.y2);
+            ctx.lineWidth = ((10 - i) * size) / 2;
+            ctx.stroke();
+          }
+        }
+
+        requestAnimationFrame(render);
+      });
+    </script>
+  </body>
+</html>
