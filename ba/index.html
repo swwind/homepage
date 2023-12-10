@@ -135,6 +135,13 @@
         font-weight: bold;
         -webkit-text-stroke: 1px white;
       }
+
+      #canvas {
+        position: fixed;
+        top: 0;
+        left: 0;
+        pointer-events: none;
+      }
     </style>
   </head>
   <body>
@@ -164,8 +171,10 @@
         </div>
       </div>
     </div>
+    <canvas id="canvas"></canvas>
     <audio src="Theme_01.ogg" loop id="audio"></audio>
 
+    <script src="touch.js"></script>
     <script>
       const video1 = document.getElementById("video1");
       const video2 = document.getElementById("video2");
@@ -217,6 +226,7 @@
       Promise.all([logoFinished, video2CanPlay])
         .then(() => {
           video2.play();
+          setupBaTouch(document.getElementById("canvas"));
           return main.animate([{ opacity: 1 }], {
             duration: 500,
             fill: "forwards",
