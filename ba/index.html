@@ -60,7 +60,6 @@
         font-weight: 500;
       }
       #main .control .kirikae {
-        background-color: #2e4262;
         border-radius: 5px;
         padding: 8px 10px;
         color: white;
@@ -68,24 +67,7 @@
         transform: skewX(-10deg);
         margin-top: 10px;
         font-weight: 500;
-        position: relative;
-        overflow: hidden;
-      }
-
-      .kirikae::before {
-        content: "";
-        display: block;
-        position: absolute;
-        left: 0;
-        top: 0;
-        height: 100%;
-        width: 100px;
-        background-color: #314f76;
-        transform: rotate(45deg) translateY(40px);
-      }
-
-      .kirikae span {
-        position: relative;
+        background: linear-gradient(45deg, #314f76 13%, #2e4262 13%);
       }
 
       #main .info {
@@ -196,9 +178,7 @@
 
       <div class="control">
         <div class="menu">MENU</div>
-        <div class="kirikae">
-          <span>ログインアカウントの切り替え</span>
-        </div>
+        <div class="kirikae">ログインアカウントの切り替え</div>
       </div>
 
       <div class="info">
