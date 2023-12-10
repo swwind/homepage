@@ -11,4 +11,5 @@ function inject_point_2() {
 // when user enter the door
 function inject_point_3() {
   console.log("Somebody enter the door!");
+  history.back();
 }

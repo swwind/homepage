@@ -39,12 +39,41 @@
         border-radius: 30px;
         background-color: black;
         overflow: hidden;
+        display: grid;
+        place-items: center;
       }
 
-      .application .window .icon {
-        height: 100%;
-        width: 100%;
+      .window.animation {
+        transition: all 1s cubic-bezier(0.08, 0.82, 0.17, 1);
+      }
+
+      .application .icon {
+        height: 60px;
+        width: 60px;
+        border-radius: 50%;
         object-fit: cover;
+        transition: width 0.6s cubic-bezier(0.08, 0.82, 0.17, 1),
+          height 0.6s cubic-bezier(0.08, 0.82, 0.17, 1),
+          opacity 0.6s cubic-bezier(0.08, 0.82, 0.17, 1);
+      }
+
+      .application.open .window {
+        position: fixed;
+        left: 0 !important;
+        top: 0 !important;
+        width: 100vw !important;
+        height: 100vh !important;
+        border-radius: 0;
+        z-index: 100;
+      }
+
+      .application.open .icon {
+        width: 180px;
+        height: 180px;
+        opacity: 0;
+        transition: width 0.6s cubic-bezier(0.08, 0.82, 0.17, 1),
+          height 0.6s cubic-bezier(0.08, 0.82, 0.17, 1),
+          opacity 0.4s cubic-bezier(0.08, 0.82, 0.17, 1) 0.2s;
       }
 
       .desc {
@@ -84,38 +113,14 @@
         },
       ];
 
+      let recover = null;
+
       apps.forEach((app) => {
+        let left = 0;
+        let top = 0;
+
         const div = document.createElement("div");
         div.classList.add("application");
-        div.addEventListener("click", function onclick() {
-          div.removeEventListener("click", onclick);
-
-          const icon = div.querySelector(".icon");
-          const win = div.querySelector(".window");
-
-          div.style.zIndex = 100;
-          icon.style.opacity = 0;
-          win.style.backgroundColor = app.theme;
-          win.animate(
-            {
-              left: "0px",
-              top: "0px",
-              borderRadius: "0px",
-              width: "100vw",
-              height: "100vh",
-            },
-            {
-              fill: "forwards",
-              duration: 500,
-              easing: "cubic-bezier(0.08, 0.82, 0.17, 1)",
-            }
-          );
-
-          setTimeout(() => {
-            location.href = app.target;
-          }, 500);
-        });
-
         div.innerHTML = `
           <div class="window">
             <img class="icon" src="${app.icon}" />
@@ -128,14 +133,48 @@
 
         elem.appendChild(div);
 
-        setTimeout(() => {
-          const window = div.querySelector(".window");
-          const placeholder = div.querySelector(".placeholder");
-          const rect = placeholder.getBoundingClientRect();
-          window.style.position = "fixed";
-          window.style.left = `${rect.left}px`;
-          window.style.top = `${rect.top}px`;
+        const win = div.querySelector(".window");
+        const icon = div.querySelector(".icon");
+        const placeholder = div.querySelector(".placeholder");
+
+        win.style.backgroundColor = app.theme;
+
+        div.addEventListener("click", function onclick() {
+          // not action if current page is open
+          const open = document.querySelector(".open");
+          if (open) {
+            open.classList.remove("open");
+            return;
+          }
+
+          div.classList.add("open");
+          setTimeout(() => {
+            location.href = app.target;
+          }, 1000);
         });
+
+        requestAnimationFrame(() => {
+          const rect = placeholder.getBoundingClientRect();
+
+          win.style.position = "fixed";
+          win.style.left = `${rect.left}px`;
+          win.style.top = `${rect.top}px`;
+          win.style.width = `${rect.width}px`;
+          win.style.height = `${rect.height}px`;
+
+          requestAnimationFrame(() => {
+            win.classList.add("animation");
+          });
+        });
+      });
+
+      addEventListener("pageshow", () => {
+        const open = document.querySelector(".open");
+        if (open) {
+          setTimeout(() => {
+            open.classList.remove("open");
+          }, 500);
+        }
       });
     </script>
   </body>
