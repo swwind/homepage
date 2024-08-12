@@ -25,15 +25,15 @@ function setupBaTouch(canvas) {
 
   /** @type {{x: number, y: number, t: number}[]} */
   const circles = [];
-  /** @type {{x: number, y: number, a: number, t: number}[]} */
+  /** @type {{x: number, y: number, a: number, t: number, r: number}[]} */
   const waves = [];
   /** @type {{t: number, x1: number, y1: number, x2: number, y2: number}[]} */
   const moves = [];
   /** @type {{t: number, x: number, y: number, a: number, u: boolean, s: number}[]} */
   const triangles = [];
 
-  function addWave(x, y) {
-    waves.push({ x, y, t: Date.now(), a: Math.random() * Math.PI * 2 });
+  function addWave(x, y, r) {
+    waves.push({ x, y, t: Date.now(), a: Math.random() * Math.PI * 2, r });
     setTimeout(() => waves.shift(), WAVE_TIME);
   }
 
@@ -48,8 +48,8 @@ function setupBaTouch(canvas) {
     addTriangle(x, y);
     addTriangle(x, y);
     addTriangle(x, y);
-    addWave(x, y);
-    addWave(x, y);
+    addWave(x, y, 45);
+    addWave(x, y, 50);
   }
 
   /**
@@ -173,7 +173,7 @@ function setupBaTouch(canvas) {
       const lsin = Math.sin(life * Math.PI);
       const length = lsin * Math.PI * 1.25;
       const start = w.a - life * Math.PI;
-      const radius = Math.exp(Math.log(life) / 4) * 50;
+      const radius = Math.exp(Math.log(life) / 4) * w.r;
 
       for (let i = 0; i < 3; ++i) {
         ctx.beginPath();
