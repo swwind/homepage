@@ -1,13 +1,54 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Angel Problem</title>
-    <style>html,body{padding: 0;margin: 0;}body{overflow: hidden;}</style>
-</head>
-<body>
+    <style>
+      html,
+      body {
+        padding: 0;
+        margin: 0;
+      }
+      body {
+        overflow: hidden;
+      }
+      .panel {
+        position: fixed;
+        left: 20px;
+        top: 20px;
+        pointer-events: none;
+        font-size: 1.5rem;
+        font-weight: bold;
+        font-family: "HarmonyOS Sans", sans-serif;
+        opacity: 0.8;
+        color: #666;
+      }
+      .notes {
+        position: fixed;
+        left: 20px;
+        bottom: 20px;
+        pointer-events: none;
+        font-size: 0.8rem;
+        font-weight: bold;
+        font-family: "HarmonyOS Sans", sans-serif;
+        opacity: 0.8;
+        color: #666;
+      }
+    </style>
+  </head>
+  <body>
     <canvas id="canvas"></canvas>
+    <div class="panel">
+      <div>The 1-Angel Problem</div>
+      <div style="font-size: 1.2rem">
+        Current Player: <span id="player">Devil</span>
+      </div>
+    </div>
+    <div class="notes">
+      <div>Press 'z' to undo</div>
+      <div>Press 'o' to goto (0, 0)</div>
+    </div>
     <script type="module" src="script.js"></script>
-</body>
+  </body>
 </html>
