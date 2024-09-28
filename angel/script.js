@@ -4,8 +4,10 @@ const canvas = document.getElementById("canvas");
 let width = canvas.width,
   height = canvas.height;
 
+const searchParams = new URL(location.href).searchParams;
+
 const bs = 50;
-const k = 1;
+const k = Number(searchParams.get("k") || 1);
 
 function resize() {
   width = canvas.width = window.innerWidth;
