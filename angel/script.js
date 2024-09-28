@@ -9,6 +9,8 @@ const searchParams = new URL(location.href).searchParams;
 const bs = 50;
 const k = Number(searchParams.get("k") || 1);
 
+document.getElementById("k").textContent = k;
+
 function resize() {
   width = canvas.width = window.innerWidth;
   height = canvas.height = window.innerHeight;
