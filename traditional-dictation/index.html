@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>繁体字听写练习</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="app-wrapper">
+        <div class="left-panel">
+            <canvas id="writing-pad"></canvas>
+            <div class="canvas-hint">请在上方区域书写</div>
+            <button id="clear-btn">清空画板</button>
+        </div>
+        
+        <div class="right-panel">
+            <div class="header">
+                <h1>繁体字听写</h1>
+                <p class="instruction">请根据显示的简体字，在左侧画板写出其对应的繁体字，完成后点击“显示答案”进行对比。</p>
+            </div>
+
+            <div class="display-area">
+                <div id="word-display" class="word-section">
+                    <span class="label" id="label-simplified">简体字</span>
+                    <div id="simplified-word" class="simplified">--</div>
+                </div>
+
+                <div id="result-display" class="word-section hidden">
+                    <span class="label" id="label-traditional">繁体字 (参考)</span>
+                    <div id="traditional-word" class="traditional">--</div>
+                </div>
+            </div>
+
+            <div class="action-buttons">
+                <button id="check-btn" class="primary-btn">显示答案</button>
+                <button id="next-btn" class="primary-btn hidden">下一题</button>
+            </div>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
